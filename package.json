@@ -1,0 +1,23 @@
+{
+  "name": "qbi-dev-tools",
+  "version": "0.1.0",
+  "description": "Command line tool for developing component for Quick BI",
+  "author": "Quick BI",
+  "license": "MIT",
+  "bin": {
+    "di-cli": "bin/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wloscar/qbi-dev-tools.git"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "commander": "^2.14.0",
+    "rimraf": "^2.6.1"
+  },
+  "deprecated": false,
+  "files": [
+    "bin"
+  ]
+}
