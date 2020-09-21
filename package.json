@@ -5,11 +5,14 @@
   "author": "Quick BI",
   "license": "MIT",
   "bin": {
-    "di-cli": "bin/index.js"
+    "qbi": "bin/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wloscar/qbi-dev-tools.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   },
   "bundleDependencies": false,
   "dependencies": {
