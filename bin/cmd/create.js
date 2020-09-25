@@ -15,13 +15,13 @@ module.exports = (projectName) => {
     `File or folder "./${projectName}" already exists`
   );
 
-  const repo = `git@gitlab.alibaba-inc.com:qbi/bi-component.git`;
+  const repo = `git@github.com:wloscar/demo-project.git`;
 
   console.log(`Creating new project "${projectName}" now!`);
   console.log("");
 
   const execSync = child_process.execSync;
-  const cmd = `git clone --quiet --depth=1 --branch=react-rewired ${repo} ./${projectName}`;
+  const cmd = `git clone --quiet --depth=1 --branch=react-demo ${repo} ./${projectName}`;
 
   console.log(`--> Running: ${cmd}`);
   execSync(cmd);
