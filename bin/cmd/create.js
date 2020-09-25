@@ -15,7 +15,7 @@ module.exports = (projectName) => {
     `File or folder "./${projectName}" already exists`
   );
 
-  const repo = `git@github.com:wloscar/demo-project.git`;
+  const repo = `https://github.com/wloscar/demo-project.git`;
 
   console.log(`Creating new project "${projectName}" now!`);
   console.log("");
