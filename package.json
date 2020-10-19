@@ -1,6 +1,6 @@
 {
   "name": "qbi-dev-tools",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Command line tool for developing component for Quick BI",
   "author": "Quick BI",
   "license": "MIT",
@@ -16,8 +16,11 @@
   },
   "bundleDependencies": false,
   "dependencies": {
+    "@alife/bi-embed": "1.0.0-qbi39-lhq-open.1",
+    "@alife/bi-component-types": "1.0.0-qbi39-open.0",
     "commander": "^2.14.0",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.1",
+    "chalk": "^4.1.0"
   },
   "deprecated": false,
   "files": [

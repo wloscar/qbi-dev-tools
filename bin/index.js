@@ -7,7 +7,7 @@ program.version(packageJson.version, "-v, --version").usage("<di-cli>");
 
 program
   .command("create <project_name>")
-  .description("create a demo component project")
+  .description("create a qbi component project")
   .usage("<project_name> [options]")
   .action((project_name, cmd) => {
     require("./cmd/create")(project_name);
