@@ -12,6 +12,9 @@ program
   .action((project_name, cmd) => {
     require("./cmd/create")(project_name);
   });
+program.command("start", "Start the current project").action((md) => {
+  require("./cmd/start")();
+});
 
 program.parse(process.argv);
 
