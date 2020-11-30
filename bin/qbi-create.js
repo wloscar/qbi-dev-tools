@@ -2,8 +2,25 @@ const fs = require("fs");
 const rimraf = require("rimraf");
 const child_process = require("child_process");
 const chalk = require("chalk");
+const checkArg = require("./utils/checkArg.js");
+const program = require("commander");
+const ConsoleWriter = require("./utils/ConsoleWriter");
 
-const checkArg = require("../utils/checkArg.js");
+const options = process.argv;
+
+// program
+//     .option('-f, --force', 'force creation (overwrites folder if exists)')
+//     .option('-t, --template [template]', 'use a specific template (default, table, slicer, rvisual, rhtml)')
+//     .option('--api-version [version]', 'use a specific api version (1.0.0, 1.1.0, 1.2.0, ...)');
+
+program.parse(options);
+const args = program.args;
+console.log(args);
+if (!args || args.length < 1) {
+  ConsoleWriter.error("You must enter a component name");
+  process.exit(1);
+}
+const projectName = args[0];
 
 checkArg(
   projectName.match(/^[a-z][a-z0-9_-]+$/),

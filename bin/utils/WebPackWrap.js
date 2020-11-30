@@ -20,10 +20,8 @@ class WebPackGenerator {
   async configureDevServer(visualPackage) {
     this.webpackConfig.devServer = {
       ...this.webpackConfig.devServer,
-      port: config.server.port,
-      contentBase: path.join(visualPackage.basePath, config.build.dropFolder),
-      https: true,
-      publicPath: "/",
+      contentBase: path.join(visualPackage.basePath, "public"),
+      ...this.customWebpackConfig.devServer,
     };
   }
 
@@ -142,6 +140,8 @@ class WebPackGenerator {
   ) {
     const tsconfigPath = visualPackage.buildPath("tsconfig.json");
     const tsconfig = require(tsconfigPath);
+    this.webpackPath = visualPackage.buildPath("webpack.config.js");
+    this.customWebpackConfig = require(this.webpackPath);
     let webpackConfig;
     webpackConfig = await this.prepareWebPackConfig(
       visualPackage,

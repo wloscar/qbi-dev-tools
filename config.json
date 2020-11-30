@@ -10,9 +10,8 @@
   "build": {
     "precompileFolder": ".tmp/precompile",
     "dropFolder": ".tmp/drop",
-    "js": "tmp.visual.js",
-    "css": "visual.css",
-    "stats": "../../webpack.statistics.html"
+    "js": "main.js",
+    "css": "main.css"
   },
   "package": {
     "dropFolder": "dist"
@@ -20,6 +19,6 @@
   "server": {
     "root": "webRoot",
     "assetsRoute": "/assets",
-    "port": "8080"
+    "port": "8001"
   }
 }

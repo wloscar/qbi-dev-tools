@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const config = require("../../config.json");
 const TerserPlugin = require("terser-webpack-plugin");
 let cwd = process.cwd();
-console.log(path.join(cwd, "./public/index.html"));
 module.exports = {
   entry: ["./src/index.ts"],
   devtool: "cheap-module-source-map",
