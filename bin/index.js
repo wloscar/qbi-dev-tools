@@ -3,19 +3,16 @@ const program = require("commander");
 
 const packageJson = require("../package.json");
 
-program.version(packageJson.version, "-v, --version").usage("<di-cli>");
+program.version(
+  packageJson.version,
+  "-v, --version",
+  "output the current version"
+);
 
 program
-  .command("create <project_name>")
-  .description("create a qbi component project")
-  .usage("<project_name> [options]")
-  .action((project_name, cmd) => {
-    require("./cmd/create")(project_name);
-  });
-program.command("start", "Start the current project").action((md) => {
-  require("./cmd/start")();
-});
-
+  .command("create <project_name>", "Create a qbi component project")
+  .command("start", "Start the demo project")
+  .command("build", "build the demo project");
 program.parse(process.argv);
 
 if (!program.args.length) {

@@ -21,8 +21,5 @@
     "root": "webRoot",
     "assetsRoute": "/assets",
     "port": "8080"
-  },
-  "visualTemplates": {
-    "circlecard": "http://github.com/microsoft/powerbi-visuals-circlecard-react/archive/master.zip"
   }
 }
