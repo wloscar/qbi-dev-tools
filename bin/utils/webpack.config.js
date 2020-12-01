@@ -7,7 +7,7 @@ let cwd = process.cwd();
 module.exports = {
   entry: ["./src/index.ts"],
   devtool: "cheap-module-source-map",
-  mode: "development",
+  mode: "production",
   optimization: {
     minimizer: [
       new TerserPlugin({
@@ -54,20 +54,20 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.s[ac]ss$/i,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
-          {
-            loader: require.resolve("css-loader"),
-          },
-          {
-            loader: require.resolve("sass-loader"),
-          },
-        ],
-      },
+      // {
+      //   test: /\.s[ac]ss$/i,
+      //   use: [
+      //     {
+      //       loader: MiniCssExtractPlugin.loader,
+      //     },
+      //     {
+      //       loader: require.resolve("css-loader"),
+      //     },
+      //     {
+      //       loader: require.resolve("sass-loader"),
+      //     },
+      //   ],
+      // },
       {
         test: /\.(woff|ttf|ico|woff2|jpg|jpeg|png|webp|gif|svg|eot)$/i,
         use: [
