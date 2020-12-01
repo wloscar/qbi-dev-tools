@@ -1,6 +1,6 @@
 {
   "name": "qbi-dev-tools",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Command line tool for developing component for Quick BI",
   "author": "Quick BI",
   "license": "MIT",
@@ -35,6 +35,7 @@
     "extra-watch-webpack-plugin": "^1.0.3",
     "fs-extra": "9.0.0",
     "html-webpack-plugin": "^4.5.0",
+    "inquirer": "^7.3.3",
     "json-loader": "0.5.7",
     "jsonschema": "1.2.5",
     "jszip": "3.2.2",
