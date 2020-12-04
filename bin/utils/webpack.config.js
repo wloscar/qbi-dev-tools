@@ -7,7 +7,7 @@ let cwd = process.cwd();
 module.exports = {
   entry: ["./src/index.ts"],
   devtool: "cheap-module-source-map",
-  mode: "production",
+  mode: "development",
   optimization: {
     minimizer: [
       new TerserPlugin({

@@ -25,6 +25,8 @@ VisualPackage.loadVisualPackage(cwd)
       .applyWebpackConfig(visualPackage, {
         devMode: false,
         target: program.target,
+        minifyJS: true,
+        minify: true,
       })
       .then(({ webpackConfig }) => {
         let compiler = webpack(webpackConfig);

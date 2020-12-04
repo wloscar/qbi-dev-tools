@@ -5,10 +5,10 @@
   "author": "Quick BI",
   "license": "MIT",
   "bin": {
-    "qbi": "bin/index.js"
+    "qbi": "bin/qbi.js"
   },
   "scripts": {
-    "start": "node ./bin/index.js"
+    "start": "node ./bin/qbi.js"
   },
   "repository": {
     "type": "git",
