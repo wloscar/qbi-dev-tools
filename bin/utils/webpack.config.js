@@ -4,8 +4,12 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const config = require("../../config.json");
 const TerserPlugin = require("terser-webpack-plugin");
 let cwd = process.cwd();
+
 module.exports = {
-  entry: ["./src/index.ts"],
+  entry: {
+    main: "./src/index.ts",
+    meta: "./src/meta.ts",
+  },
   devtool: "cheap-module-source-map",
   mode: "development",
   optimization: {
@@ -84,7 +88,7 @@ module.exports = {
   output: {
     path: path.join(cwd, "build"),
     pathinfo: true,
-    filename: "main.js",
+    filename: "[name].js",
     publicPath: "/",
     library: "BIComponent",
     libraryTarget: "umd",
