@@ -7,8 +7,8 @@ let cwd = process.cwd();
 
 module.exports = {
   entry: {
-    main: "./src/index.ts",
     meta: "./src/meta.ts",
+    main: "./src/index.ts",
   },
   devtool: "cheap-module-source-map",
   mode: "development",

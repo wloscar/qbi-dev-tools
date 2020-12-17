@@ -39,7 +39,6 @@ VisualPackage.loadVisualPackage(cwd)
         devServerPort: program.port,
       })
       .then(({ webpackConfig }) => {
-        console.log(webpackConfig);
         let compiler = webpack(webpackConfig);
         ConsoleWriter.blank();
         ConsoleWriter.info("Starting server...");
