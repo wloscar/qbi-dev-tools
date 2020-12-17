@@ -70,9 +70,6 @@ inquire
       json.author = "Write your name here";
       json.version = "0.1.0";
 
-      // 替换打包文件名为项目名称
-      json.scripts.zip = json.scripts.zip.replace("component", projectName);
-
       fs.writeFile(projectPackage, JSON.stringify(json, null, 2), function () {
         ConsoleWriter.done(`Project initialized successfully! Next step:`);
         ConsoleWriter.info(chalk.blue(`cd ${projectName}`));

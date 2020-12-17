@@ -12,7 +12,8 @@ program.version(
 program
   .command("create <project_name>", "Create a qbi component project")
   .command("start", "Start the demo project")
-  .command("build", "build the demo project");
+  .command("build", "build the demo project")
+  .command("pack", "pack the demo project");
 program.parse(process.argv);
 
 if (!program.args.length) {

@@ -1,6 +1,6 @@
 {
   "name": "qbi-dev-tools",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Command line tool for developing component for Quick BI",
   "author": "Quick BI",
   "license": "MIT",
@@ -24,6 +24,7 @@
     "@babel/preset-env": "7.9.0",
     "@babel/runtime": "7.9.2",
     "@babel/runtime-corejs3": "7.9.2",
+    "archiver": "^5.1.0",
     "async": "3.2.0",
     "babel-loader": "^8.1.0",
     "base64-inline-loader": "^1.1.1",
