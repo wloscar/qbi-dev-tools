@@ -7,8 +7,23 @@ let cwd = process.cwd();
 
 module.exports = {
   entry: {
-    meta: path.resolve(cwd, "./src/meta.ts"),
-    main: path.resolve(cwd, "./src/index.ts"),
+    BIComponentMeta: path.resolve(cwd, "./src/meta.ts"),
+    BIComponent: path.resolve(cwd, "./src/index.ts"),
+  },
+  output: {
+    path: path.join(cwd, "build"),
+    pathinfo: true,
+    filename: (pathData) => {
+      const outputMapping = {
+        BIComponentMeta: "meta.js",
+        BIComponent: "main.js",
+      };
+
+      return outputMapping[pathData.chunk.name] || "[name].js";
+    },
+    publicPath: "/",
+    library: "[name]",
+    libraryTarget: "umd",
   },
   devtool: "cheap-module-source-map",
   mode: "development",
@@ -84,14 +99,6 @@ module.exports = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js", ".css"],
-  },
-  output: {
-    path: path.join(cwd, "build"),
-    pathinfo: true,
-    filename: "[name].js",
-    publicPath: "/",
-    library: "BIComponent",
-    libraryTarget: "umd",
   },
   devServer: {
     disableHostCheck: true,

@@ -30,9 +30,9 @@ try {
 
 const outputFileName = packageJson
   ? `${packageJson.name || ""}-${packageJson.version || ""}.zip`
-  : path.resolve(cwd, "./component.zip");
+  : "./component.zip";
 
-const output = fs.createWriteStream(outputFileName);
+const output = fs.createWriteStream(path.resolve(cwd, "build", outputFileName));
 const archive = archiver("zip");
 
 output.on("close", function () {
