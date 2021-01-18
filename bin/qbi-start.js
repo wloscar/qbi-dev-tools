@@ -27,7 +27,7 @@ let cwd = process.cwd();
 let server;
 
 VisualPackage.loadVisualPackage(cwd)
-  .then((visualPackage) => {
+  .then(visualPackage => {
     new WebPackWrap()
       .applyWebpackConfig(visualPackage, {
         devMode: true,
@@ -49,12 +49,12 @@ VisualPackage.loadVisualPackage(cwd)
           );
         });
       })
-      .catch((e) => {
+      .catch(e => {
         ConsoleWriter.error(e.message);
         process.exit(1);
       });
   })
-  .catch((e) => {
+  .catch(e => {
     ConsoleWriter.error("LOAD ERROR", e);
     process.exit(1);
   });

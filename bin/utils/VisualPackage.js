@@ -4,7 +4,7 @@ let path = require("path");
 let childProcess = require("child_process");
 // let ConsoleWriter = require("./ConsoleWriter");
 
-const CONFIG_FILE = "webpack-config.json";
+const CONFIG_FILE = "webpack.config.json";
 
 /**
  * Represents an instance of a visual package based on file path

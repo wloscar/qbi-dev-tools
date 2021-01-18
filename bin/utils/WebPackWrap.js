@@ -7,6 +7,8 @@ const encoding = "utf8";
 const ConsoleWriter = require("./ConsoleWriter");
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
+const merge = require("lodash.merge");
+const webpack = require("webpack");
 
 class WebPackGenerator {
   enableOptimization() {
@@ -18,11 +20,32 @@ class WebPackGenerator {
   }
 
   async configureDevServer(visualPackage) {
-    this.webpackConfig.devServer = {
-      ...this.webpackConfig.devServer,
-      contentBase: path.join(visualPackage.basePath, "public"),
-      ...this.customWebpackConfig.devServer,
-    };
+    this.webpackConfig = merge(
+      this.webpackConfig,
+      {
+        devServer: {
+          contentBase: path.join(visualPackage.basePath, "public"),
+        },
+      },
+      this.customWebpackConfig
+    );
+
+    // dev 模式下增加修改 sourceMappingURL
+    if (this.webpackConfig.mode === "development") {
+      this.webpackConfig.devtool = false;
+      this.webpackConfig.plugins.push(
+        new webpack.SourceMapDevToolPlugin({
+          filename: "[file].map",
+          publicPath: [
+            this.webpackConfig.devServer.https ? "https://" : "http://",
+            "127.0.0.1",
+            ":",
+            this.webpackConfig.devServer.port,
+            "/",
+          ].join(""),
+        })
+      );
+    }
   }
 
   setTarget({ target = "es5", fast = false }) {
