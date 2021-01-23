@@ -1,47 +1,45 @@
-const fs = require("fs");
-const child_process = require("child_process");
-const checkArg = require("./utils/checkArg.js");
-const ConsoleWriter = require("./utils/ConsoleWriter");
-const archiver = require("archiver");
-const path = require("path");
+const fs = require('fs');
+const logger = require('./utils/logger');
+const archiver = require('archiver');
+const path = require('path');
 
 const cwd = process.cwd();
 const options = process.argv;
 
 // 打包文件
 const files = [
-  path.resolve(cwd, "./build/main.js"),
-  path.resolve(cwd, "./build/meta.js"),
-  path.resolve(cwd, "./build/main.css"),
-  path.resolve(cwd, "./package.json"),
+  path.resolve(cwd, './build/main.js'),
+  path.resolve(cwd, './build/meta.js'),
+  path.resolve(cwd, './build/main.css'),
+  path.resolve(cwd, './package.json'),
 ];
 
-ConsoleWriter.info("packing...");
+logger.info('packing...');
 
 let packageJson;
 
 try {
   packageJson = JSON.parse(
-    fs.readFileSync(path.resolve(cwd, "./package.json"), "utf8")
+    fs.readFileSync(path.resolve(cwd, './package.json'), 'utf8'),
   );
 } catch (err) {
-  ConsoleWriter.error(err);
+  logger.error(err);
 }
 
 const outputFileName = packageJson
-  ? `${packageJson.name || ""}-${packageJson.version || ""}.zip`
-  : "./component.zip";
+  ? `${packageJson.name || ''}-${packageJson.version || ''}.zip`
+  : './component.zip';
 
-const output = fs.createWriteStream(path.resolve(cwd, "build", outputFileName));
-const archive = archiver("zip");
+const output = fs.createWriteStream(path.resolve(cwd, 'build', outputFileName));
+const archive = archiver('zip');
 
-output.on("close", function () {
-  ConsoleWriter.info(archive.pointer() + " total bytes");
-  ConsoleWriter.info("pack finish.");
+output.on('close', function () {
+  logger.info(archive.pointer() + ' total bytes');
+  logger.info('pack finish.');
 });
 
-archive.on("error", function (err) {
-  ConsoleWriter.error(err);
+archive.on('error', function (err) {
+  logger.error(err);
   throw err;
 });
 
@@ -51,6 +49,6 @@ files
   .reduce(
     (prev, file) =>
       prev.append(fs.createReadStream(file), { name: path.basename(file) }),
-    archive
+    archive,
   )
   .finalize();
