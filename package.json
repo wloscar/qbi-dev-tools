@@ -1,6 +1,6 @@
 {
   "name": "qbi-dev-tools",
-  "version": "1.0.0",
+  "version": "1.0.1-beta",
   "description": "Command line tool for developing component for Quick BI",
   "author": "Quick BI",
   "license": "MIT",
@@ -44,6 +44,7 @@
     "lodash.get": "^4.4.2",
     "lodash.merge": "^4.6.2",
     "mini-css-extract-plugin": "^0.9.0",
+    "raw-loader": "^4.0.2",
     "rimraf": "^2.6.1",
     "sass": "^1.32.5",
     "sass-loader": "^10.1.1",
