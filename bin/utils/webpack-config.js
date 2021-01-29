@@ -43,6 +43,9 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
     entry: {},
     externals: {},
     devServer: {},
+    module: {
+      rules: [],
+    },
     plugins: [],
   };
 
@@ -108,6 +111,7 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
       hints: false,
     },
     module: {
+      ...outerWebpackConfig.module,
       rules: [
         {
           parser: {
@@ -253,9 +257,20 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
                 sassLoader(),
               ],
             },
+            {
+              test: /\.ejs$/,
+              loader: require.resolve('ejs-compiled-loader'),
+              options: {
+                variable: 'data',
+              },
+            },
+            {
+              test: /\.(html|htm)$/i,
+              loader: require.resolve('html-loader'),
+            },
           ],
         },
-      ],
+      ].concat(outerWebpackConfig.module.rules),
     },
     resolve: {
       modules: ['node_modules', path.resolve(cwd, 'node_modules')],
