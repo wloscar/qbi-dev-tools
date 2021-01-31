@@ -264,10 +264,6 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
                 variable: 'data',
               },
             },
-            {
-              test: /\.(html|htm)$/i,
-              loader: require.resolve('html-loader'),
-            },
           ],
         },
       ].concat(outerWebpackConfig.module.rules),
