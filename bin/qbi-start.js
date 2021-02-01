@@ -41,6 +41,7 @@ function stopServer() {
   if (server) {
     server.close();
     server = null;
+    process.exit(1);
   }
 }
 
