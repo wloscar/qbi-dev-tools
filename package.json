@@ -26,6 +26,7 @@
     "@babel/preset-typescript": "^7.12.7",
     "@babel/runtime": "7.9.2",
     "@babel/runtime-corejs3": "7.9.2",
+    "@teamsupercell/typings-for-css-modules-loader": "^2.4.0",
     "archiver": "^5.1.0",
     "babel-loader": "^8.1.0",
     "base64-inline-loader": "^1.1.1",

@@ -21,6 +21,11 @@ const cssLoader = (options = {}) => ({
   options: { sourceMap: false, ...options },
 });
 
+const cssModuleLoader = (options = {}) => ({
+  loader: require.resolve('@teamsupercell/typings-for-css-modules-loader'),
+  options: { formatter: 'prettier', ...options },
+});
+
 const lessLoader = (options = {}) => ({
   loader: require.resolve('less-loader'),
   options: {
@@ -239,12 +244,17 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
             // css modules 配置
             {
               test: /\.module\.css$/,
-              use: [cssExtractLoader(), cssLoader({ modules: true })],
+              use: [
+                cssExtractLoader(),
+                cssModuleLoader(),
+                cssLoader({ modules: true }),
+              ],
             },
             {
               test: /\.module\.less$/,
               use: [
                 cssExtractLoader(),
+                cssModuleLoader(),
                 cssLoader({ modules: true }),
                 lessLoader(),
               ],
@@ -253,6 +263,7 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
               test: /\.module\.(scss|sass)$/,
               use: [
                 cssExtractLoader(),
+                cssModuleLoader(),
                 cssLoader({ modules: true }),
                 sassLoader(),
               ],
