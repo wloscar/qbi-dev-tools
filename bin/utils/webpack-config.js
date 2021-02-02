@@ -315,8 +315,7 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
         'Access-Control-Allow-Credentials': 'true',
         'Access-Control-Allow-Methods':
           'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers':
-          'X-Requested-With, content-type, Authorization, x-csrf-token',
+        'Access-Control-Allow-Headers': '*',
         'cache-control': 'public, max-age=0',
       },
       ...outerWebpackConfig.devServer,
