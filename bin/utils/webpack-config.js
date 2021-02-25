@@ -141,7 +141,7 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
             },
             {
               test: /\.(ts|tsx)$/,
-              include: path.resolve(cwd, 'src'),
+              exclude: /node_modules/,
               use: [
                 {
                   loader: require.resolve('babel-loader'),
@@ -169,7 +169,7 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
             },
             {
               test: /\.(js|mjs|jsx)$/,
-              include: path.resolve(cwd, 'src'),
+              exclude: /node_modules/,
               use: [
                 {
                   loader: require.resolve('babel-loader'),
@@ -321,6 +321,25 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
       ...outerWebpackConfig.devServer,
     },
   };
+
+  // demo 入口模块
+  if (mode === 'development') {
+    const devEntry = {
+      'index.ts': 'DemoMain',
+      'index.tsx': 'ReactDemoMain',
+      'index.js': 'DemoMain',
+      'index.jsx': 'ReactDemoMain',
+    };
+    Object.keys(devEntry).forEach(entryFileName => {
+      if (fs.existsSync(path.resolve(cwd, `./public/${entryFileName}`))) {
+        const moduleName = devEntry[entryFileName];
+        webpackConfig.entry[moduleName] = path.resolve(
+          cwd,
+          `./public/${entryFileName}`,
+        );
+      }
+    });
+  }
 
   webpackConfig.plugins = [
     new webpack.ProgressPlugin(),
