@@ -163,6 +163,11 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
                     ],
                     cacheDirectory: true,
                     cacheCompression: false,
+                    plugins: [
+                      require.resolve(
+                        '@babel/plugin-proposal-class-properties',
+                      ),
+                    ],
                   },
                 },
               ],
@@ -190,38 +195,46 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
                     ],
                     cacheDirectory: true,
                     cacheCompression: false,
-                    // plugins: [
-                    //   require.resolve("@babel/plugin-syntax-dynamic-import"),
-                    // ],
+                    plugins: [
+                      require.resolve(
+                        '@babel/plugin-proposal-class-properties',
+                      ),
+                    ],
                   },
                 },
               ],
             },
-            {
-              test: /\.(js|mjs)$/,
-              exclude: /@babel(?:\/|\\{1,2})runtime/,
-              loader: require.resolve('babel-loader'),
-              options: {
-                babelrc: false,
-                configFile: false,
-                compact: false,
-                presets: [
-                  [
-                    require.resolve('@babel/preset-env'),
-                    {
-                      targets: {
-                        ie: '11',
-                      },
-                      useBuiltIns: 'entry',
-                      corejs: 3,
-                      modules: false,
-                    },
-                  ],
-                ],
-                cacheDirectory: true,
-                cacheCompression: false,
-                sourceMaps: false,
-              },
+            // {
+            //   test: /\.(js|mjs)$/,
+            //   exclude: /@babel(?:\/|\\{1,2})runtime/,
+            //   loader: require.resolve('babel-loader'),
+            //   options: {
+            //     babelrc: false,
+            //     configFile: false,
+            //     compact: false,
+            //     presets: [
+            //       [
+            //         require.resolve('@babel/preset-env'),
+            //         {
+            //           targets: {
+            //             ie: '11',
+            //           },
+            //           useBuiltIns: 'entry',
+            //           corejs: 3,
+            //           modules: false,
+            //         },
+            //       ],
+            //     ],
+            //     cacheDirectory: true,
+            //     cacheCompression: false,
+            //     sourceMaps: false,
+            //   },
+            // },
+            // dev 模式下 demo 样式使用 style-loader
+            mode === 'development' && {
+              test: /\.(sass|scss|css|less)$/,
+              include: /public/,
+              use: ['style-loader', 'css-loader', 'sass-loader', 'less-loader'],
             },
             {
               test: /\.css$/,
@@ -275,7 +288,7 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
                 variable: 'data',
               },
             },
-          ],
+          ].filter(each => each),
         },
       ].concat(outerWebpackConfig.module.rules),
     },
