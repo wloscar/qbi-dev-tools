@@ -12,6 +12,21 @@ const cwd = process.cwd();
 
 const outerWebpackConfigFileName = path.resolve(cwd, 'webpack.config.js');
 
+const defaultServer = {
+  https: true,
+  host: '127.0.0.1',
+  port: 8001,
+};
+
+const getDevOrigin = (outerServerConfig = {}) => {
+  const { https, host, port } = {
+    ...defaultServer,
+    ...outerServerConfig,
+  };
+
+  return `${https ? 'https://' : 'http://'}${host}:${port}`;
+};
+
 const cssExtractLoader = () => ({
   loader: MiniCssExtractPlugin.loader,
 });
@@ -234,7 +249,7 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
             mode === 'development' && {
               test: /\.(sass|scss|css|less)$/,
               include: /public/,
-              use: ['style-loader', 'css-loader', 'sass-loader', 'less-loader'],
+              use: ['style-loader', cssLoader(), lessLoader(), sassLoader()],
             },
             {
               test: /\.css$/,
@@ -309,17 +324,17 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
       ...outerWebpackConfig.externals,
     },
     devServer: {
+      ...defaultServer,
       disableHostCheck: true,
       contentBase: path.resolve(cwd, 'public'),
       compress: true,
       clientLogLevel: 'none',
       watchContentBase: true,
-      port: 8001,
       hot: true,
-      host: '127.0.0.1',
       quiet: false,
       inline: false,
-      https: true,
+      open: true,
+      openPage: getDevOrigin(outerWebpackConfig.devServer),
       public: undefined,
       proxy: undefined,
       publicPath: '/',
@@ -337,21 +352,16 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
 
   // demo 入口模块
   if (mode === 'development') {
-    const devEntry = {
-      'index.ts': 'DemoMain',
-      'index.tsx': 'ReactDemoMain',
-      'index.js': 'DemoMain',
-      'index.jsx': 'ReactDemoMain',
-    };
-    Object.keys(devEntry).forEach(entryFileName => {
-      if (fs.existsSync(path.resolve(cwd, `./public/${entryFileName}`))) {
-        const moduleName = devEntry[entryFileName];
-        webpackConfig.entry[moduleName] = path.resolve(
-          cwd,
-          `./public/${entryFileName}`,
-        );
-      }
-    });
+    const devEntry = ['index.ts', 'index.tsx', 'index.js', 'index.jsx'];
+
+    const devEntryName = devEntry.find(entryFileName =>
+      fs.existsSync(path.resolve(cwd, `./public/${entryFileName}`)),
+    );
+
+    webpackConfig.entry.BIDevEntry = path.resolve(
+      cwd,
+      `./public/${devEntryName}`,
+    );
   }
 
   webpackConfig.plugins = [
@@ -374,20 +384,20 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
     }),
     // 抽离样式
     new MiniCssExtractPlugin({
-      filename: 'main.css',
+      filename: ({ chunk }) => {
+        const outputMapping = {
+          BIComponentMeta: 'main.css',
+          BIComponent: 'main.css',
+        };
+        return outputMapping[chunk.name] || '[name].css';
+      },
       chunkFilename: '[id].css',
     }),
     // 替换 sourceMappingURL
     mode === 'development' &&
       new webpack.SourceMapDevToolPlugin({
         filename: '[file].map',
-        publicPath: [
-          webpackConfig.devServer.https ? 'https://' : 'http://',
-          webpackConfig.devServer.host,
-          ':',
-          webpackConfig.devServer.port,
-          '/',
-        ].join(''),
+        publicPath: `${getDevOrigin(webpack.devServer)}/`,
       }),
     // 分析打包
     analyze &&
