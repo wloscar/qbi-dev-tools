@@ -8,8 +8,8 @@
     "qbi": "bin/qbi.js"
   },
   "scripts": {
-    "start": "node ./bin/qbi.js",
-    "prepublishOnly": "yarn version"
+    "prepublishOnly": "yarn version",
+    "postpublish": "node ./script/tag.js"
   },
   "repository": {
     "type": "git",
