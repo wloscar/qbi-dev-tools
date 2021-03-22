@@ -9,7 +9,7 @@
   },
   "scripts": {
     "prepublishOnly": "yarn version",
-    "postpublish": "node ./script/tag.js"
+    "postpublish": "git push --tag"
   },
   "repository": {
     "type": "git",
