@@ -10,7 +10,6 @@ program.version(
 );
 
 program
-  .command('create <project_name>', 'create a qbi component project')
   .command('start', 'start the demo project')
   .command('build', 'build the demo project')
   .command('pack', 'pack the demo project');
