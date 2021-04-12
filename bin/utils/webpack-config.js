@@ -80,8 +80,8 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
   const webpackConfig = {
     mode,
     bail: mode === 'production',
-    // devtool: mode === 'production' ? 'cheap-module-source-map' : false,
-    devtool: false,
+    devtool: mode === 'development' ? 'eval-source-map' : false,
+    // devtool: false,
     entry: {
       BIComponentMeta: path.resolve(cwd, './src/meta.ts'),
       BIComponent: path.resolve(cwd, './src/index.ts'),
