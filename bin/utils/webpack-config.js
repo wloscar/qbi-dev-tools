@@ -5,6 +5,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 const merge = require('lodash.merge');
 const webpack = require('webpack');
 
@@ -124,6 +125,7 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
       ],
       splitChunks: { cacheGroups: { default: false } },
       runtimeChunk: false,
+      usedExports: true,
     },
     performance: {
       maxEntrypointSize: 1024000,
@@ -133,6 +135,12 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
     module: {
       ...outerWebpackConfig.module,
       rules: [
+        // vue-loader 必须放在 rules[0] 中
+        // 之后会将 lang="ts" 的脚本转交给 babel-loader
+        {
+          test: /\.vue$/,
+          loader: require.resolve('vue-loader'),
+        },
         {
           parser: {
             amd: false,
@@ -174,7 +182,13 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
                         },
                       ],
                       require.resolve('@babel/preset-react'),
-                      require.resolve('@babel/preset-typescript'),
+                      [
+                        require.resolve('@babel/preset-typescript'),
+                        {
+                          isTSX: true,
+                          allExtensions: true,
+                        },
+                      ],
                     ],
                     cacheDirectory: true,
                     cacheCompression: false,
@@ -379,6 +393,7 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
         excludeChunks: [],
         title: 'Quick BI Custom Component',
       }),
+    new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(mode),
     }),
