@@ -1,5 +1,5 @@
-let chalk = require('chalk');
-let os = require('os');
+const chalk = require('chalk');
+const os = require('os');
 
 if (os.platform() === 'darwin') {
   chalk = chalk.bold;

@@ -903,18 +903,18 @@
     "@babel/helper-validator-option" "^7.12.1"
     "@babel/plugin-transform-typescript" "^7.12.1"
 
-"@babel/runtime-corejs3@7.9.2":
-  version "7.9.2"
-  resolved "https://registry.npm.alibaba-inc.com/@babel/runtime-corejs3/download/@babel/runtime-corejs3-7.9.2.tgz#26fe4aa77e9f1ecef9b776559bbb8e84d34284b7"
-  integrity sha1-Jv5Kp36fHs75t3ZVm7uOhNNChLc=
+"@babel/runtime-corejs3@7.12.0":
+  version "7.12.0"
+  resolved "https://registry.npm.alibaba-inc.com/@babel/runtime-corejs3/download/@babel/runtime-corejs3-7.12.0.tgz#e74206f51ebd69a787a6be762e26593dc3e97756"
+  integrity sha1-50IG9R69aaeHpr52LiZZPcPpd1Y=
   dependencies:
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@7.9.2":
-  version "7.9.2"
-  resolved "https://registry.npm.alibaba-inc.com/@babel/runtime/download/@babel/runtime-7.9.2.tgz#d90df0583a3a252f09aaa619665367bae518db06"
-  integrity sha1-2Q3wWDo6JS8JqqYZZlNnuuUY2wY=
+"@babel/runtime@7.12.0":
+  version "7.12.0"
+  resolved "https://registry.npm.alibaba-inc.com/@babel/runtime/download/@babel/runtime-7.12.0.tgz#98bd7666186969c04be893d747cf4a6c6c8fa6b0"
+  integrity sha1-mL12ZhhpacBL6JPXR89KbGyPprA=
   dependencies:
     regenerator-runtime "^0.13.4"
 

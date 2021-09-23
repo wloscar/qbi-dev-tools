@@ -1,8 +1,8 @@
-let program = require('commander');
-let logger = require('./utils/logger');
+const program = require('commander');
+const logger = require('./utils/logger');
 const webpack = require('webpack');
 const { getWebpackConfig } = require('./utils/webpack-config');
-let options = process.argv;
+const options = process.argv;
 
 program.option('-a, --analyze [analyze]', 'Analyze the bundle', false);
 
