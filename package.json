@@ -1,6 +1,6 @@
 {
   "name": "qbi-dev-tools",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Command line tool for developing component for Quick BI",
   "author": "Quick BI",
   "license": "MIT",
