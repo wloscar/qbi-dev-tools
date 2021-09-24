@@ -45,7 +45,7 @@ function stopServer() {
     server.close();
     server = null;
   }
-  process.exit(1);
+  process.exit(0);
 }
 
 function checkServer(port, host) {
@@ -64,5 +64,6 @@ function checkServer(port, host) {
   });
 }
 
+process.on('exit', stopServer);
 process.on('SIGINT', stopServer);
 process.on('SIGTERM', stopServer);

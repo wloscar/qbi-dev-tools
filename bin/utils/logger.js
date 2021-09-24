@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+let chalk = require('chalk');
 const os = require('os');
 
 if (os.platform() === 'darwin') {

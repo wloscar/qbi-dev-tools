@@ -2,7 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
@@ -121,7 +120,6 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
             mangle: { safari10: true },
           },
         }),
-        new CssMinimizerPlugin(),
       ],
       splitChunks: { cacheGroups: { default: false } },
       runtimeChunk: false,
