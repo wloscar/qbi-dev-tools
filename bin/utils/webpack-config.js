@@ -4,11 +4,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { VueLoaderPlugin } = require('vue-loader');
 const merge = require('lodash.merge');
 const webpack = require('webpack');
+const { getRevisalLatestVersion } = require('./tools');
 
 const cwd = process.cwd();
+const latestRevisalVersion = getRevisalLatestVersion();
 
 const outerWebpackConfigFileName = path.resolve(cwd, 'webpack.config.js');
 
@@ -56,6 +59,42 @@ const sassLoader = (options = {}) => ({
   loader: require.resolve('sass-loader'),
   options: { sourceMap: false, ...options },
 });
+
+const babelLoader = (opt) => {
+  return {
+    loader: require.resolve('babel-loader'),
+    options: {
+      presets: [
+        [
+          require.resolve('@babel/preset-env'),
+          {
+            targets: {
+              ie: '11',
+            },
+            useBuiltIns: 'entry',
+            corejs: 3,
+            modules: false,
+          },
+        ],
+        require.resolve('@babel/preset-react'),
+        opt.ts && [
+          require.resolve('@babel/preset-typescript'),
+          {
+            isTSX: true,
+            allExtensions: true,
+          },
+        ],
+      ].filter(each => each),
+      cacheDirectory: true,
+      cacheCompression: false,
+      plugins: [
+        require.resolve(
+          '@babel/plugin-proposal-class-properties',
+        ),
+      ],
+    },
+  }
+}
 
 function getWebpackConfig({ mode = 'development', analyze = false }) {
   // 外部 webpack.config.js 只覆盖部分属性
@@ -164,99 +203,16 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
               test: /\.(ts|tsx)$/,
               exclude: /node_modules/,
               use: [
-                {
-                  loader: require.resolve('babel-loader'),
-                  options: {
-                    presets: [
-                      [
-                        require.resolve('@babel/preset-env'),
-                        {
-                          targets: {
-                            ie: '11',
-                          },
-                          useBuiltIns: 'entry',
-                          corejs: 3,
-                          modules: false,
-                        },
-                      ],
-                      require.resolve('@babel/preset-react'),
-                      [
-                        require.resolve('@babel/preset-typescript'),
-                        {
-                          isTSX: true,
-                          allExtensions: true,
-                        },
-                      ],
-                    ],
-                    cacheDirectory: true,
-                    cacheCompression: false,
-                    plugins: [
-                      require.resolve(
-                        '@babel/plugin-proposal-class-properties',
-                      ),
-                    ],
-                  },
-                },
+                babelLoader({ ts: true }),
               ],
             },
             {
               test: /\.(js|mjs|jsx)$/,
               exclude: /node_modules/,
               use: [
-                {
-                  loader: require.resolve('babel-loader'),
-                  options: {
-                    presets: [
-                      [
-                        require.resolve('@babel/preset-env'),
-                        {
-                          targets: {
-                            ie: '11',
-                          },
-                          useBuiltIns: 'entry',
-                          corejs: 3,
-                          modules: false,
-                        },
-                      ],
-                      require.resolve('@babel/preset-react'),
-                    ],
-                    cacheDirectory: true,
-                    cacheCompression: false,
-                    plugins: [
-                      require.resolve(
-                        '@babel/plugin-proposal-class-properties',
-                      ),
-                    ],
-                  },
-                },
+                babelLoader({}),
               ],
             },
-            // {
-            //   test: /\.(js|mjs)$/,
-            //   exclude: /@babel(?:\/|\\{1,2})runtime/,
-            //   loader: require.resolve('babel-loader'),
-            //   options: {
-            //     babelrc: false,
-            //     configFile: false,
-            //     compact: false,
-            //     presets: [
-            //       [
-            //         require.resolve('@babel/preset-env'),
-            //         {
-            //           targets: {
-            //             ie: '11',
-            //           },
-            //           useBuiltIns: 'entry',
-            //           corejs: 3,
-            //           modules: false,
-            //         },
-            //       ],
-            //     ],
-            //     cacheDirectory: true,
-            //     cacheCompression: false,
-            //     sourceMaps: false,
-            //   },
-            // },
             // dev 模式下 demo 样式使用 style-loader
             mode === 'development' && {
               test: /\.(sass|scss|css|less)$/,
@@ -337,19 +293,18 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
     },
     devServer: {
       ...defaultServer,
-      disableHostCheck: true,
-      contentBase: path.resolve(cwd, 'public'),
+      allowedHosts: "all",
       compress: true,
-      clientLogLevel: 'none',
-      watchContentBase: true,
+      client: {
+        logging: "none",
+        overlay: false
+      },
       hot: true,
-      quiet: false,
-      inline: false,
-      open: true,
-      openPage: getDevOrigin(outerWebpackConfig.devServer),
-      public: undefined,
+      open: [getDevOrigin(outerWebpackConfig.devServer)],
       proxy: undefined,
-      publicPath: '/',
+      devMiddleware: {
+        publicPath: '/',
+      },
       headers: {
         'access-control-allow-origin': '*',
         'Access-Control-Allow-Credentials': 'true',
@@ -359,6 +314,10 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
         'cache-control': 'public, max-age=0',
       },
       ...outerWebpackConfig.devServer,
+      static: {
+        directory: path.resolve(cwd, 'public'),
+        watch: true,
+      },
     },
   };
 
@@ -381,19 +340,20 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
     // 清空 build 目录
     mode === 'production' && new CleanWebpackPlugin(),
     mode === 'development' &&
-      new HtmlWebpackPlugin({
-        template: path.resolve(cwd, './public/index.html'),
-        templateContent: false,
-        filename: 'index.html',
-        compile: true,
-        minify: false,
-        chunks: 'all',
-        excludeChunks: [],
-        title: 'Quick BI Custom Component',
-      }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(cwd, './public/index.html'),
+      templateContent: false,
+      filename: 'index.html',
+      compile: true,
+      minify: false,
+      chunks: 'all',
+      excludeChunks: [],
+      title: 'Quick BI Custom Component',
+    }),
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(mode),
+      __QBI_REVISAL_VERSION__: JSON.stringify(latestRevisalVersion),
     }),
     // 抽离样式
     new MiniCssExtractPlugin({
@@ -408,15 +368,15 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
     }),
     // 替换 sourceMappingURL
     mode === 'development' &&
-      new webpack.SourceMapDevToolPlugin({
-        filename: '[file].map',
-        publicPath: `${getDevOrigin(webpack.devServer)}/`,
-      }),
+    new webpack.SourceMapDevToolPlugin({
+      filename: '[file].map',
+      publicPath: `${getDevOrigin(webpack.devServer)}/`,
+    }),
     // 分析打包
     analyze &&
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'static',
-      }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+    }),
   ]
     .concat(outerWebpackConfig.plugins)
     .filter(each => each);

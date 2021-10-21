@@ -4,8 +4,6 @@ const archiver = require('archiver');
 const path = require('path');
 
 const cwd = process.cwd();
-const options = process.argv;
-const { getWebpackConfig } = require('./utils/webpack-config');
 const packageJsonOutputFileName = path.resolve(cwd, './build/package.json');
 
 // 打包文件
@@ -22,7 +20,7 @@ let packageJson;
 
 try {
   packageJson = JSON.parse(
-    fs.readFileSync(path.resolve(cwd, './package.json'), 'utf8'),
+    fs.readFileSync(path.resolve(cwd, './package.json'), 'utf8')
   );
 } catch (err) {
   logger.error(err);

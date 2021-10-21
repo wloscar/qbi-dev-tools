@@ -12,7 +12,8 @@ program.version(
 program
   .command('start', 'start the demo project')
   .command('build', 'build the demo project')
-  .command('pack', 'pack the demo project');
+  .command('pack', 'pack the demo project')
+  .command('ssl', 'generate https self-signed certificate');
 program.parse(process.argv);
 
 if (!program.args.length) {

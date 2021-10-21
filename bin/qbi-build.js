@@ -3,7 +3,9 @@ const logger = require('./utils/logger');
 const webpack = require('webpack');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
+const { appendExtraInfoToPackageJSON } = require('./utils/tools');
 const { getWebpackConfig } = require('./utils/webpack-config');
 const options = process.argv;
 
@@ -29,27 +31,7 @@ try {
       throw Error(info.errors.join(os.EOL + os.EOL));
     }
 
-    // 复制 package.json 到 build 下, 并添加额外信息
-    const packageJson = JSON.parse(
-      fs.readFileSync(path.resolve(cwd, './package.json'), 'utf8'),
-    );
-
-    // 为 package.json 写入 webpack config 信息
-    if (
-      webpackConfig.externals &&
-      typeof webpackConfig.externals === 'object' &&
-      Object.keys(webpackConfig.externals).length > 0
-    ) {
-      packageJson.webpack = {};
-      packageJson.webpack.externals = webpackConfig.externals;
-    }
-
-    // 从项目中读取 bi-open 这个包, 获得最新的订正版本号
-    try {
-      const { LATEST_VERSION } = require(path.resolve(cwd, `node_modules/bi-open`))
-      packageJson.revisalInfo = {}
-      packageJson.revisalInfo.version = LATEST_VERSION
-    } catch (e) { }
+    const packageJson = appendExtraInfoToPackageJSON(webpackConfig);
 
     // 写入 package.json
     fs.writeFileSync(path.resolve(cwd, './build/package.json'), JSON.stringify(packageJson), {

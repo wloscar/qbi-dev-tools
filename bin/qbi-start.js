@@ -3,12 +3,16 @@ const WebpackDevServer = require('webpack-dev-server');
 const logger = require('./utils/logger');
 const { getWebpackConfig } = require('./utils/webpack-config');
 const webpack = require('webpack');
+const fs = require('fs');
+const path = require('path');
 const net = require('net');
+const { appendExtraInfoToPackageJSON } = require('./utils/tools');
 
 const options = process.argv;
 program.option('-a, --analyze [analyze]', 'Analyze the bundle', false);
 
 program.parse(options);
+const cwd = process.cwd();
 
 let server;
 logger.blank();
@@ -31,6 +35,12 @@ checkServer(webpackConfig.devServer.port, webpackConfig.devServer.host)
         );
       },
     );
+    const packageJson = appendExtraInfoToPackageJSON(webpackConfig);
+
+    // 写入 package.json
+    fs.writeFileSync(path.resolve(cwd, 'public/package.json'), JSON.stringify(packageJson, null, 2), {
+      encoding: 'utf8',
+    });
   })
   .catch(err => {
     logger.error('LOAD ERROR', err);
@@ -40,8 +50,8 @@ checkServer(webpackConfig.devServer.port, webpackConfig.devServer.host)
 //clean up
 function stopServer() {
   logger.blank();
-  logger.info('Stopping server...');
   if (server) {
+    logger.info('Stopping server...');
     server.close();
     server = null;
   }
@@ -64,6 +74,8 @@ function checkServer(port, host) {
   });
 }
 
-process.on('exit', stopServer);
-process.on('SIGINT', stopServer);
-process.on('SIGTERM', stopServer);
+[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach(eventType => {
+  process.on(eventType, () => {
+    stopServer()
+  });
+});
