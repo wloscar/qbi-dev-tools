@@ -27,3 +27,8 @@ npm run build
 ```
 npm run pack
 ```
+
+## generate self-signed certificate
+```
+npm run ssl
+```
