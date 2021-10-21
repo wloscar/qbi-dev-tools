@@ -293,18 +293,19 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
     },
     devServer: {
       ...defaultServer,
-      allowedHosts: "all",
+      disableHostCheck: true,
+      contentBase: path.resolve(cwd, 'public'),
       compress: true,
-      client: {
-        logging: "none",
-        overlay: false
-      },
+      clientLogLevel: 'none',
+      watchContentBase: true,
       hot: true,
-      open: [getDevOrigin(outerWebpackConfig.devServer)],
+      quiet: false,
+      inline: false,
+      open: true,
+      openPage: getDevOrigin(outerWebpackConfig.devServer),
+      public: undefined,
       proxy: undefined,
-      devMiddleware: {
-        publicPath: '/',
-      },
+      publicPath: '/',
       headers: {
         'access-control-allow-origin': '*',
         'Access-Control-Allow-Credentials': 'true',
@@ -314,10 +315,6 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
         'cache-control': 'public, max-age=0',
       },
       ...outerWebpackConfig.devServer,
-      static: {
-        directory: path.resolve(cwd, 'public'),
-        watch: true,
-      },
     },
   };
 
