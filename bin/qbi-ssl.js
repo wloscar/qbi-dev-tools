@@ -21,12 +21,28 @@ function installSSL() {
     const keyFile = path.resolve(destDir, 'dev.key');
     const certFile = path.resolve(destDir, 'dev.pem');
     const hostlist = ['localhost', '127.0.0.1', '::1'];
-    let mkcertFile = path.resolve(cwd, './node_modules/qbi-mkcert/files/mkcert');
+    let mkcertFile;
 
-    if (!fs.existsSync(mkcertFile)) {
-      mkcertFile = path.resolve(__dirname, '../node_modules/qbi-mkcert/files/mkcert');
+
+    const platform = os.platform();
+    switch (platform) {
+      case 'darwin':
+        mkcertFile = path.resolve(cwd, './node_modules/qbi-mkcert/darwin/mkcert');
+        if (!fs.existsSync(mkcertFile)) {
+          mkcertFile = path.resolve(__dirname, '../node_modules/qbi-mkcert/darwin/mkcert');
+        }
+        break;
+      case 'win32':
+        mkcertFile = path.resolve(cwd, './node_modules/qbi-mkcert/win32/mkcert.exe');
+        if (!fs.existsSync(mkcertFile)) {
+          mkcertFile = path.resolve(__dirname, '../node_modules/qbi-mkcert/win32/mkcert.exe');
+        }
+        break;
     }
 
+    if (!mkcertFile) {
+      throw new Error('get mkcert failed')
+    }
     fs.chmodSync(mkcertFile, 0o777);
 
     // 安装证书

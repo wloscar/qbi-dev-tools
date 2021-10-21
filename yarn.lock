@@ -4966,10 +4966,10 @@ punycode@^2.1.0:
   resolved "https://registry.npm.alibaba-inc.com/punycode/download/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha1-tYsBCsQMIsVldhbI0sLALHv0eew=
 
-qbi-mkcert@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.alibaba-inc.com/qbi-mkcert/download/qbi-mkcert-1.0.0.tgz#e5b33a6a6e31979ab7fc799b89789bab95484152"
-  integrity sha1-5bM6am4xl5q3/HmbiXibq5VIQVI=
+qbi-mkcert@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npm.alibaba-inc.com/qbi-mkcert/download/qbi-mkcert-1.1.0.tgz#d9be11a8712399d9f9aa221ea6bae6321bf0ad11"
+  integrity sha1-2b4RqHEjmdn5qiIeprrmMhvwrRE=
 
 qs@6.7.0:
   version "6.7.0"
