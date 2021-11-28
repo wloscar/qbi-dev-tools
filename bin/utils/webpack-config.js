@@ -116,16 +116,23 @@ function getWebpackConfig({ mode = 'development', analyze = false }) {
     );
   }
 
+  const entry = {
+    BIComponentMeta: path.resolve(cwd, './src/meta.ts'),
+    BIComponent: path.resolve(cwd, './src/index.ts'),
+    ...outerWebpackConfig.entry,
+  }
+  Object.keys(entry).forEach(key => {
+    if (entry[key] === undefined) {
+      delete entry[key]
+    }
+  });
+
   const webpackConfig = {
     mode,
     bail: mode === 'production',
     devtool: mode === 'development' ? 'eval-source-map' : false,
     // devtool: false,
-    entry: {
-      BIComponentMeta: path.resolve(cwd, './src/meta.ts'),
-      BIComponent: path.resolve(cwd, './src/index.ts'),
-      ...outerWebpackConfig.entry,
-    },
+    entry: entry,
     output: {
       path: path.resolve(cwd, 'build'),
       pathinfo: mode === 'development',

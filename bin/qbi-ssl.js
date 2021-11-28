@@ -4,9 +4,10 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const { getMkcert } = require('qbi-mkcert');
+
 const { ensure } = require('./utils/tools');
 
-const cwd = process.cwd();
 const certDefaultDir = path.resolve(os.homedir(), '.qbi-cert');
 
 program.option('-d, --dest [dest]', 'ssl folder', certDefaultDir);
@@ -21,24 +22,7 @@ function installSSL() {
     const keyFile = path.resolve(destDir, 'dev.key');
     const certFile = path.resolve(destDir, 'dev.pem');
     const hostlist = ['localhost', '127.0.0.1', '::1'];
-    let mkcertFile;
-
-
-    const platform = os.platform();
-    switch (platform) {
-      case 'darwin':
-        mkcertFile = path.resolve(cwd, './node_modules/qbi-mkcert/darwin/mkcert');
-        if (!fs.existsSync(mkcertFile)) {
-          mkcertFile = path.resolve(__dirname, '../node_modules/qbi-mkcert/darwin/mkcert');
-        }
-        break;
-      case 'win32':
-        mkcertFile = path.resolve(cwd, './node_modules/qbi-mkcert/win32/mkcert.exe');
-        if (!fs.existsSync(mkcertFile)) {
-          mkcertFile = path.resolve(__dirname, '../node_modules/qbi-mkcert/win32/mkcert.exe');
-        }
-        break;
-    }
+    const mkcertFile = getMkcert();
 
     if (!mkcertFile) {
       throw new Error('get mkcert failed')

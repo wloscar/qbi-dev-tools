@@ -4484,10 +4484,10 @@ punycode@^2.1.0:
   resolved "https://registry.nlark.com/punycode/download/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha1-tYsBCsQMIsVldhbI0sLALHv0eew=
 
-qbi-mkcert@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.npmmirror.com/qbi-mkcert/download/qbi-mkcert-1.1.0.tgz#d9be11a8712399d9f9aa221ea6bae6321bf0ad11"
-  integrity sha1-2b4RqHEjmdn5qiIeprrmMhvwrRE=
+qbi-mkcert@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npm.alibaba-inc.com/qbi-mkcert/download/qbi-mkcert-1.1.1.tgz#fd8ccb2ff098d0de3fee6d91a0253005a653e980"
+  integrity sha1-/YzLL/CY0N4/7m2RoCUwBaZT6YA=
 
 qs@6.7.0:
   version "6.7.0"
