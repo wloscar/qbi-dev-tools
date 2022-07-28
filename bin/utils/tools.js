@@ -36,7 +36,7 @@ function appendExtraInfoToPackageJSON(webpackConfig) {
 
   const latestRevisalVersion = getRevisalLatestVersion();
   packageJson.revisalInfo = {
-    version: latestRevisalVersion
+    version: packageJson.revisalInfo?.version || latestRevisalVersion
   }
 
   return packageJson;
