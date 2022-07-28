@@ -2952,10 +2952,10 @@ html-minifier@^4:
     relateurl "^0.2.7"
     uglify-js "^3.5.1"
 
-html-webpack-plugin@^5.1.0:
+html-webpack-plugin@5.1.0:
   version "5.1.0"
-  resolved "https://registry.npm.alibaba-inc.com/html-webpack-plugin/download/html-webpack-plugin-5.1.0.tgz#1c11bbe01ab9d1262c4b601edebcf394364b1f60"
-  integrity sha1-HBG74Bq50SYsS2Ae3rzzlDZLH2A=
+  resolved "https://registry.npmmirror.com/html-webpack-plugin/-/html-webpack-plugin-5.1.0.tgz#1c11bbe01ab9d1262c4b601edebcf394364b1f60"
+  integrity sha512-2axkp+2NHmvHUWrKe1dY4LyM3WatQEdFChr42OY7R/Ad7f0AQzaKscGCcqN/FtQBxo8rdfJP7M3RMFDttqok3g==
   dependencies:
     "@types/html-minifier-terser" "^5.0.0"
     html-minifier-terser "^5.0.1"
@@ -4352,10 +4352,10 @@ punycode@^2.1.0:
   resolved "https://registry.nlark.com/punycode/download/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha1-tYsBCsQMIsVldhbI0sLALHv0eew=
 
-qbi-mkcert@^1.1.1:
+qbi-mkcert@1.1.1:
   version "1.1.1"
-  resolved "https://registry.npm.alibaba-inc.com/qbi-mkcert/download/qbi-mkcert-1.1.1.tgz#fd8ccb2ff098d0de3fee6d91a0253005a653e980"
-  integrity sha1-/YzLL/CY0N4/7m2RoCUwBaZT6YA=
+  resolved "https://registry.npmmirror.com/qbi-mkcert/-/qbi-mkcert-1.1.1.tgz#fd8ccb2ff098d0de3fee6d91a0253005a653e980"
+  integrity sha512-gOFPxJz9FrLHe+vVyhbVWP7E0GfatTbIRlojIpwKTEOezqAKAbKu2mOKRUGS0GWxMyClD9keYvPAO5RuHhAqrA==
 
 qs@6.7.0:
   version "6.7.0"
