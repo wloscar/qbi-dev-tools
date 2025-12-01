@@ -1,3 +1,6 @@
+# Tips
+This repository has been migrated to [open-sdk](https://github.com/quick-bi/open-sdk)
+
 # qbi-dev-tools
 This is a building tool for Quick-BI developers.
 
